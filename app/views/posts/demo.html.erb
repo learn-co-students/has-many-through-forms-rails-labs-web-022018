@@ -1,0 +1,36 @@
+New Category: <%= f.fields_for :categories, @post.categories.build do |categories_fields|%>
+<%= categories_fields.text_field :name %>
+<% end %>
+<%= @comment.fields_for :user, @comment.user.build do |user_attributes| %>
+<%= user_attributes.text_field :username %>
+<% end %>
+
+
+<%= form_for @comment do |f| %>
+  <%= f.label "New Comment:"%>
+  <%= f.text_field :content %>
+  Existing: <%= f.collection_select :user_id, User.all, :id, :username %>
+  <%= @comment.fields_for :user, @comment.user.build do |user_attributes| %>
+  <%= user_attributes.text_field :username %>
+  <% end %>
+  <%= f.submit %>
+<% end %>
+
+
+<%= form_for @comment do |f| %>
+  Existing User:<%= f.collection_select :user_id, User.all, :id, :username %><br>
+  New User:<%= f.fields_for :user_id, @post.users.build do |user_attributes| %>
+  <%= user_attributes.text_field :username %>
+  <% end %><br>
+  Comment Content: <%= f.fields_for :comments, @post.comments.build do |comments_attributes| %>
+  <%= comments_attributes.text_field :content %>
+  <% end %><br>
+    <%= f.submit %>
+<% end %>
+
+
+<% @post.comments.each do |comment| %>
+<li><%= link_to comment.user.username, user_path(comment.user) if comment.user %> says: <%= comment.content %></li>  <br>
+<% end %>
+</ul>
+<br><br><br>
