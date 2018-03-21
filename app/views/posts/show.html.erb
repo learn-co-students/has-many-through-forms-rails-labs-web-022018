@@ -1,1 +1,31 @@
+In: <% @post.categories.each do |category| %>
+<%= category.name %>
+<% end %>
 
+<%= @post.title %><br>
+<%= @post.content %><br>
+<ul>
+
+
+
+
+<% @post.users.uniq.each do |user| %>
+<%= link_to user.username, user_path(user) %> says
+<% user.comments.each do |comment| %>
+  <%= comment.content if comment.post_id == @post.id%><br>
+<% end %><br>
+<% end %>
+
+
+<%= form_for @post do |f| %>
+  Existing User:<%= f.collection_select :users, User.all, :id, :username, :include_blank => true %><br>
+  New User:<%= f.fields_for :users, @post.users.build do |user_attributes| %>
+  <%= user_attributes.text_field :username %>
+  <% end %><br>
+  Comment Content: <%= f.fields_for :comments, @post.comments.build do |comments_attributes| %>
+  <%= comments_attributes.text_field :content %>
+  <% end %><br>
+    <%= f.submit %>
+<% end %>
+
+<br><br><br>
