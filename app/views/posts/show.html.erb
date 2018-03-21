@@ -1,1 +1,26 @@
+<h1><%= @post.title%></h1>
 
+<p><%= @post.content%></p>
+
+<% @post.comments.each do |comment|%>
+	<% if comment.user %>
+		<%= comment.user.username %> says: 
+	<% end %><br>
+	<%= comment.content %><br><br>
+<% end %>
+<br>
+
+Categories:
+<% @post.categories.each do |cat|%>
+	<%= cat.name %>
+<% end %>
+
+New Comment:
+<%= render 'comment_form' %>
+
+<ul>
+<% @post.users.uniq.each do |user|%>
+	<li><%= link_to user.username, user %></li>
+<% end %>
+
+</ul>

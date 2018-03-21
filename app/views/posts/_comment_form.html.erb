@@ -1,0 +1,14 @@
+<%= form_for @post do |f|%>
+	<%=f.fields_for :comments, @post.comments.build do |comment| %>
+		<%= comment.text_field :content, id:'comment_content' %>
+		Select Username: <%=comment.collection_select :user_id, User.all, :id, :username, {}, {id:'comment_user_id'} %><br>
+		<%=comment.fields_for :user, f.object.users.build do |user| %>
+			New Username: <%= user.text_field :username, id:'comment_user_attributes_username' %>
+		<% end %>
+
+		
+	<% end %>
+	
+	
+	<%= f.submit value:'Create Comment'%>
+<% end %>
