@@ -1,0 +1,13 @@
+<h1>Comment</h1>
+<%= form_for(@post) do |f|%>
+<%=f.fields_for :comments, @post.comments.build do |comment|%>
+  <%=comment.text_field :content, id:'comment_content'%><br><br>
+  <%=comment.label :users%><br><br>
+  <p><%=comment.collection_select :user_id, User.all, :id, :username, {}, {id:'comment_user_id'}%><br><br></p>
+  <%=comment.fields_for :user, f.object.users.build do |user|%>
+  <%=user.label :new_username%><br><br>
+  <%=user.text_field :username, id: 'comment_user_attributes_username'%>
+  <%end%>
+  <%end%><br><br>
+<%=f.button value:"Create Comment"%>
+<%end%>
