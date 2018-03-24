@@ -1,1 +1,13 @@
+<%=@user.username%><br>
 
+<h4>Comments:</h4>
+<%if !@user.comments.empty?%>
+  <% @user.comments.to_a.each do |comment|%>
+    <li><%= link_to comment.content, comment.post%></li>
+  <%end%>
+<%end%>
+
+<h4>Posts:</h4>
+<%@user.comments.each do |comment|%>
+  <li><%=link_to comment.post.title, comment.post%></li>
+<%end%>
